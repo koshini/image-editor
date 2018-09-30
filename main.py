@@ -90,6 +90,41 @@ def performHistoEqualization(radius):
     height = currentImage.size[1]
 
     # YOUR CODE HERE
+    for x in range(width):
+        for y in range(height):
+            # pixels[x, y] = RGB2YCbCr(pixels[x, y])
+            n_r = 0
+            intensity = (pixels[x, y][0] - 16) / float(235 - 16)
+            # pixel = pixels[x, y]
+            if ((x - radius + 1) >= 0) and ((y - radius + 1) >= 0) and (x + radius <= width) and (y + radius <= height):
+                for i in range(x-radius+1, x+radius-1, 1):
+                    for j in range(y-radius+1, y+radius-1, 1):
+                        if ((pixels[i, j][0] - 16) / float(235 - 16)) <= intensity:
+                            n_r = n_r + 1
+                pi = list(pixels[x, y])
+                pi[0] = n_r * 256 / ((radius + 1)*(radius + 1))- 1
+                pixels[x, y] = tuple(pi)
+                # pixels[x, y] = YCbCr2RGB(pixels[x, y])
+
+            #corner and edge case(not finished)
+            # if ((x - radius + 1) < 0) or ((y - radius + 1) >= 0) or (x + radius <= width) or (y + radius <= height):
+            #     for i in range(x, x + radius,1):
+            #         for j in range(y, y+radius, 1):
+            #             if ((pixels[i, j][0] - 16) / float(235 - 16) <= intensity):
+            #                 n_r = n_r + 1
+            #     pi = list(pixels[x, y])
+            #     pi[0] = n_r * 256 / ((radius+1) * (radius+1)) - 1
+            #     pixels[x, y] = tuple(pi)
+            #     pixels[x, y] = YCbCr2RGB(pixels[x, y])
+            # elif x + radius > width or y + radius > height:
+            #     for i in range(x - radius + 1, width-1,1):
+            #         for j in range(y - radius + 1, height - 1, 1):
+            #             if ((pixels[i, j][0] - 16) / float(235 - 16) <= intensity):
+            #                 n_r = n_r + 1
+            #     pi = list(pixels[x, y])
+            #     pi[0] = n_r * 256 / ((radius+1) * (radius+1)) - 1
+            #     pixels[x, y] = tuple(pi)
+            #     pixels[x, y] = YCbCr2RGB(pixels[x, y])
 
     print 'perform local histogram equalization with radius %d' % radius
 
